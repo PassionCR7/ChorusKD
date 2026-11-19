@@ -2,8 +2,15 @@
 
 **黑盒知识蒸馏的最优形态：多样采样 + 一致性筛选 + 能力匹配调度 + 在线策略**
 
-针对只能拿到文本输出的闭源 API 教师在做的蒸馏。与白盒蒸馏（[LensKD](../LensKD)）
-互补，解决的是完全不同的问题。
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c)](https://pytorch.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+针对只能拿到文本输出的闭源 API 教师在做的蒸馏。与白盒蒸馏
+（[LensKD](https://github.com/PassionCR7/LensKD)）互补，解决的是完全不同的问题。
+
+> **[LensKD](https://github.com/PassionCR7/LensKD)** — 白盒蒸馏：双投影器跨词表对齐 + 熵门控 + 在线策略
+> **ChorusKD**（本仓库）— 黑盒蒸馏：多样采样 + 一致性投票 + 能力调度 + 排序 DPO
 
 ---
 
@@ -180,6 +187,15 @@ DPO 的 β 要比 RLHF 常用值（0.1~0.5）偏小，因为教师排序也会�
 ```bash
 pip install -r requirements.txt
 ```
+
+需要本地有：
+- 学生模型定义与基线权重（`D:\workspace\xllm\model\` 与 `out\full_sft_512.pth`）
+- SFT 语料作为种子池（`D:\workspace\xllm\dataset\sft_t2t_mini.jsonl`）
+- mock 模式下的本地教师：Qwen3-0.6B（见 `config.py` 的 `mock_model_path`）
+
+> **关于权重文件**：本仓库**不包含**任何 `.pth` 权重（单个 116MB，超过 GitHub
+> 100MB 硬限制，且训练产物不应进版本库）。`out/` 已在 `.gitignore` 中排除。
+> 蒸馏产物需按下方命令自行训练生成。
 
 ### 无 API key：mock 模式
 
