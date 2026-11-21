@@ -1,0 +1,371 @@
+{
+  "experiment": "exp2_consistency_correlation",
+  "timestamp": "2026-11-21T15:23:03",
+  "elapsed_sec": 89.27,
+  "device": "cuda",
+  "teacher": "D:\\models\\models\\Qwen--Qwen3-0.6B\\snapshots\\master",
+  "setup": {
+    "n_prompts": 24,
+    "temperatures": [
+      0.3,
+      0.6,
+      0.9,
+      1.2,
+      1.3
+    ],
+    "reps_per_temp": 1,
+    "n_samples_per_prompt": 5,
+    "cluster_mode": "fuzzy",
+    "cluster_threshold": 0.75
+  },
+  "per_item": [
+    {
+      "q": "23 乘以 17 等于多少？只回答数字。",
+      "gold": "391",
+      "answer": "23 × 17 = **401**",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "144 除以 12 等于多少？只回答数字。",
+      "gold": "12",
+      "answer": "144 ÷ 12 = 12",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "2 的 10 次方是多少？只回答数字。",
+      "gold": "1024",
+      "answer": "2^10 = 1024",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "1000 减去 357 等于多少？只回答数字。",
+      "gold": "643",
+      "answer": "1000 - 357 = **643**",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "7 的阶乘是多少？只回答数字。",
+      "gold": "5040",
+      "answer": "7的阶乘是40320。",
+      "agreement": 0.6,
+      "n_clusters": 3,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "一个正方形边长 13，面积是多少？只回答数字。",
+      "gold": "169",
+      "answer": "正方形的面积 = 边长 × 边长  \n= 13 × 13  \n= **169**  \n\n所以，面积是 **169**。",
+      "agreement": 0.6,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "45 加 67 再加 88 等于多少？只回答数字。",
+      "gold": "200",
+      "answer": "45 + 67 + 88 = **200**",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "256 的平方根是多少？只回答数字。",
+      "gold": "16",
+      "answer": "256 的平方根是 16。",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "水的化学式是什么？只回答化学式。",
+      "gold": "H2O",
+      "answer": "H₂O",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "光速在真空中的近似值是多少 km/s？只回答数字。",
+      "gold": "300000",
+      "answer": "900.",
+      "agreement": 0.4,
+      "n_clusters": 3,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "地球上最大的海洋是哪个？只回答名称。",
+      "gold": "太平洋",
+      "answer": "太平洋",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "《红楼梦》的作者是谁？只回答人名。",
+      "gold": "曹雪芹",
+      "answer": "曹雪芹",
+      "agreement": 0.4,
+      "n_clusters": 3,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "中国的首都是哪座城市？只回答城市名。",
+      "gold": "北京",
+      "answer": "北京",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "一年有多少个月？只回答数字。",
+      "gold": "12",
+      "answer": "12",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "DNA 的全称是什么？只回答英文缩写。",
+      "gold": "deoxyribonucleic acid",
+      "answer": "DNA",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "太阳系中距离太阳最近的行星是哪个？只回答行星名。",
+      "gold": "水星",
+      "answer": "地球",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "1 公里等于多少米？只回答数字。",
+      "gold": "1000",
+      "answer": "1公里等于1000米。",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "1 小时等于多少秒？只回答数字。",
+      "gold": "3600",
+      "answer": "1 小时 = 3600 秒",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "1 GB 等于多少 MB？只回答数字。",
+      "gold": "1024",
+      "answer": "1 GB 等于 1024 MB。",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "水的沸点在标准大气压下是多少摄氏度？只回答数字。",
+      "gold": "100",
+      "answer": "100.0",
+      "agreement": 1.0,
+      "n_clusters": 1,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "Python 中用于定义函数的关键字是什么？只回答关键字。",
+      "gold": "def",
+      "answer": "function",
+      "agreement": 0.6,
+      "n_clusters": 3,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": false,
+      "correct_loose": false
+    },
+    {
+      "q": "HTML 中用于创建超链接的标签是什么？只回答标签名。",
+      "gold": "a",
+      "answer": "aHref",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": false,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "SQL 中用于查询数据的关键字是什么？只回答关键字。",
+      "gold": "select",
+      "answer": "SELECT",
+      "agreement": 0.6,
+      "n_clusters": 3,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    },
+    {
+      "q": "Git 中用于提交改动的命令是什么？只回答子命令。",
+      "gold": "commit",
+      "answer": "git commit",
+      "agreement": 0.8,
+      "n_clusters": 2,
+      "n_samples": 5,
+      "correct_exact": true,
+      "correct_f1": true,
+      "correct_loose": true
+    }
+  ],
+  "stats": {
+    "correct_exact": {
+      "accuracy": 0.375,
+      "n_correct": 9,
+      "n_total": 24,
+      "pearson": 0.07756262445336227,
+      "spearman": 0.11296678595369457,
+      "pearson_ci95": [
+        -0.35032452487268534,
+        0.4994961490118797
+      ]
+    },
+    "correct_f1": {
+      "accuracy": 0.7083333333333334,
+      "n_correct": 17,
+      "n_total": 24,
+      "pearson": 0.2714411554087214,
+      "spearman": 0.26895452256879654,
+      "pearson_ci95": [
+        -0.17407765595569785,
+        0.6727019938390052
+      ]
+    },
+    "correct_loose": {
+      "accuracy": 0.7083333333333334,
+      "n_correct": 17,
+      "n_total": 24,
+      "pearson": 0.2714411554087214,
+      "spearman": 0.26895452256879654,
+      "pearson_ci95": [
+        -0.17407765595569785,
+        0.6727019938390052
+      ]
+    }
+  },
+  "buckets": [
+    {
+      "range": [
+        0.4,
+        0.6
+      ],
+      "n": 2,
+      "acc_exact": 0.5,
+      "acc_f1": 0.5,
+      "acc_loose": 0.5
+    },
+    {
+      "range": [
+        0.6,
+        0.8
+      ],
+      "n": 4,
+      "acc_exact": 0.25,
+      "acc_f1": 0.5,
+      "acc_loose": 0.5
+    },
+    {
+      "range": [
+        0.8,
+        1.01
+      ],
+      "n": 18,
+      "acc_exact": 0.3888888888888889,
+      "acc_f1": 0.7777777777777778,
+      "acc_loose": 0.7777777777777778
+    }
+  ],
+  "verdict_vs_readme": {
+    "correct_exact": {
+      "spearman": 0.11296678595369457,
+      "in_claimed_range": false,
+      "note": "低于声称区间"
+    },
+    "correct_f1": {
+      "spearman": 0.26895452256879654,
+      "in_claimed_range": false,
+      "note": "低于声称区间"
+    },
+    "correct_loose": {
+      "spearman": 0.26895452256879654,
+      "in_claimed_range": false,
+      "note": "低于声称区间"
+    }
+  }
+}
