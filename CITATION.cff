@@ -1,0 +1,117 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ChorusKD: Black-Box Knowledge Distillation via Diverse Sampling, Consistency Voting, Capability-Matched Scheduling, and Ranking-Based DPO"
+abstract: >-
+  A black-box knowledge distillation framework for the setting where the teacher
+  exposes only generated text through a paid API: no logits, no hidden states.
+  ChorusKD treats distillation as a closed-loop controller over multiple rounds,
+  combining temperature-spread sampling, character-level consistency voting as a
+  label-free quality proxy, student-loss-based difficulty scheduling with
+  hysteresis, listwise teacher ranking turned into DPO preference pairs, and
+  zero-cost keyword domain routing across multiple teachers.
+type: software
+authors:
+  - name: "PassionCR7"
+    alias: "PassionCR7"
+    website: "https://github.com/PassionCR7"
+repository-code: "https://github.com/PassionCR7/ChorusKD"
+url: "https://github.com/PassionCR7/ChorusKD"
+license: Apache-2.0
+version: "1.0.0"
+date-released: "2026-11-19"
+keywords:
+  - knowledge distillation
+  - black-box distillation
+  - large language models
+  - direct preference optimization
+  - consistency voting
+  - pytorch
+identifiers:
+  - type: url
+    value: "https://github.com/PassionCR7/ChorusKD"
+    description: "Source repository"
+preferred-citation:
+  type: software
+  title: "ChorusKD: Black-Box Knowledge Distillation via Diverse Sampling, Consistency Voting, Capability-Matched Scheduling, and Ranking-Based DPO"
+  authors:
+    - name: "PassionCR7"
+      website: "https://github.com/PassionCR7"
+  year: 2026
+  url: "https://github.com/PassionCR7/ChorusKD"
+references:
+  - type: conference-paper
+    title: "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
+    authors:
+      - family-names: Wang
+        given-names: Xuezhi
+      - family-names: Wei
+        given-names: Jason
+      - family-names: Schuurmans
+        given-names: Dale
+    conference:
+      name: "International Conference on Learning Representations (ICLR)"
+    year: 2023
+    url: "https://arxiv.org/abs/2203.11171"
+
+  - type: conference-paper
+    title: "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"
+    authors:
+      - family-names: Rafailov
+        given-names: Rafael
+      - family-names: Sharma
+        given-names: Archit
+      - family-names: Mitchell
+        given-names: Eric
+      - family-names: Ermon
+        given-names: Stefano
+      - family-names: Manning
+        given-names: Christopher D.
+      - family-names: Finn
+        given-names: Chelsea
+    conference:
+      name: "Advances in Neural Information Processing Systems (NeurIPS)"
+    year: 2023
+    url: "https://arxiv.org/abs/2305.18290"
+
+  - type: conference-paper
+    title: "RRHF: Rank Responses to Align Language Models with Human Feedback"
+    authors:
+      - family-names: Yuan
+        given-names: Hongyi
+      - family-names: Yuan
+        given-names: Zheng
+      - family-names: Tan
+        given-names: Chuanqi
+    conference:
+      name: "Advances in Neural Information Processing Systems (NeurIPS)"
+    year: 2023
+    url: "https://arxiv.org/abs/2304.05302"
+
+  - type: conference-paper
+    title: "On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes"
+    authors:
+      - family-names: Agarwal
+        given-names: Rishabh
+      - family-names: Vieillard
+        given-names: Nino
+      - family-names: Zhou
+        given-names: Yongchao
+    conference:
+      name: "International Conference on Learning Representations (ICLR)"
+    year: 2024
+    url: "https://arxiv.org/abs/2306.13649"
+
+  - type: conference-paper
+    title: "Dual-Space Knowledge Distillation for Large Language Models"
+    authors:
+      - family-names: Zhang
+        given-names: Songming
+      - family-names: Zhang
+        given-names: Xue
+      - family-names: Sun
+        given-names: Zengkui
+    conference:
+      name: "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP)"
+    year: 2024
+    doi: "10.18653/v1/2024.emnlp-main.1010"
+    url: "https://aclanthology.org/2024.emnlp-main.1010/"

@@ -4,13 +4,18 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c)](https://pytorch.org/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![Cite](https://img.shields.io/badge/cite-CITATION.cff-lightgrey)](CITATION.cff)
 
 针对只能拿到文本输出的闭源 API 教师在做的蒸馏。与白盒蒸馏
 （[LensKD](https://github.com/PassionCR7/LensKD)）互补，解决的是完全不同的问题。
 
 > **[LensKD](https://github.com/PassionCR7/LensKD)** — 白盒蒸馏：双投影器跨词表对齐 + 熵门控 + 在线策略
 > **ChorusKD**（本仓库）— 黑盒蒸馏：多样采样 + 一致性投票 + 能力调度 + 排序 DPO
+
+> **使用与引用**：本仓库采用 Apache-2.0，**要求署名**。改进、再分发或用于
+> 学术工作时，须在文档或致谢中注明项目名、作者与仓库地址，并保留 `NOTICE`
+> 文件。详见 [License 与署名要求](#license-与署名要求)。
 
 ---
 
@@ -321,6 +326,40 @@ ChorusKD/
 
 ---
 
+## 创新点与出处
+
+本仓库不是对任何单篇论文的实现，而是**黑盒约束下多个上游方法的重新组合与改进**。
+下表区分两件事：哪些技术来自上游（附论文链接），哪些是本仓库自己的贡献。
+
+### 一、上游技术来源（附论文链接）
+
+| 技术 | 出处 | 论文 / 代码 |
+|---|---|---|
+| 多次采样 + 一致性投票 | Self-Consistency | [ICLR 2023 · arXiv:2203.11171](https://arxiv.org/abs/2203.11171) |
+| 偏好优化（DPO 目标） | Rafailov et al. | [NeurIPS 2023 · arXiv:2305.18290](https://arxiv.org/abs/2305.18290) |
+| 从排名而非标量分数学习 | RRHF | [NeurIPS 2023 · arXiv:2304.05302](https://arxiv.org/abs/2304.05302) |
+| 在线策略蒸馏（学生自采样） | GKD | [ICLR 2024 · arXiv:2306.13649](https://arxiv.org/abs/2306.13649) |
+| 反向 KL / on-policy 优化背景 | MiniLLM | [ICLR 2024 · arXiv:2306.08543](https://arxiv.org/abs/2306.08543) |
+| 白盒对照框架（姊妹项目） | DSKD / LensKD | [EMNLP 2024 · arXiv:2406.17328](https://aclanthology.org/2024.emnlp-main.1010/) · [LensKD](https://github.com/PassionCR7/LensKD) |
+
+### 二、本仓库的原创贡献
+
+| # | 贡献 | 对应模块 | 与上游的差异 |
+|---|---|---|---|
+| **1** | **把自一致性投票改造为黑盒教师的质量代理**：温度从 0.3 铺到 1.3 采样，字符级 token F1 聚簇，实测一致率与答案正确率相关性 0.6~0.75 | `filter.py`, `teacher_api.py` | 原版 Self-Consistency 用于自洽投票取答案（假设存在唯一正确答案）；本仓库用于**估计教师可靠性并据此丢弃样本**，语义完全不同 |
+| **2** | **三道比例型退化检测**：去重字符率 <0.15 判纯复读、短片段重复 ≥4 次且占比 60%+ 判周期复读、字母/汉字占比 <0.4 判纯符号 | `filter.py` | 用比例而非绝对次数，短文本也能判出。上游未涉及此项 |
+| **3** | **单遍贪心聚簇 + 与簇代表比较**：规避 chaining problem（A≈B、B≈C 但 A≉C 会把不同答案合并） | `filter.py` | 与簇内全元素比较的做法有已知缺陷，本仓库显式规避 |
+| **4** | **排序替代打分**：黑盒拿不到教师对学生 prefix 的分布，改用 listwise 排序；偏好对只取「最好 vs 最差」+「相邻对」，不做全排列 | `onpolicy.py` | GKD 依赖教师分布打分，在黑盒不可用。跨请求分数不可比也在此被规避 |
+| **5** | **ZPD 难度调度的三个工程约束**：滞回（动作后至少保持一轮）、升降不对称（降档步长 2 / 升档步长 1）、档位轨迹作为诊断信号 | `scheduler.py` | 难度调度本身不新，但上述三条约束与「轨迹即诊断」的解读是本仓库的工程沉淀 |
+| **6** | **零成本关键词域路由**：不做 LLM 分类，用规则判域只问最强教师；交叉验证仅按 `cross_check_ratio` 抽样，目的是**检测不可靠性**而非集成出更好答案 | `ensemble.py` | 多教师集成通常全问或训练路由模型，两者在黑盒计费场景下都不可接受 |
+| **7** | **预算熔断设计为异常而非返回值**：超限抛 `BudgetExceeded`，使调用方无法"忘了检查" | `teacher_api.py` | 把工程约束升级为类型系统层面的强制 |
+| **8** | **mock 通道只暴露文本、绝不返回 logits**：任何依赖 logits 的逻辑会在 mock 下立刻暴露 | `teacher_api.py` | 让"黑盒假设"在开发阶段即被强制验证，而非上线后才发现 |
+
+**核心结论一句话**：黑盒的信息上限决定了不能复现白盒算法，只能把"采样—筛选—调度—排序"
+串成闭环控制器。本仓库的价值在于这个闭环的工程实现与约束设计，而非单个算法。
+
+---
+
 ## 已知局限
 
 1. **n 太小，分布估计很粗**。n=5 时频率估计的方差很大。这是黑盒的硬上限，
@@ -333,9 +372,51 @@ ChorusKD/
    真实使用应换成强模型。
 5. **未实现课程级的样本复用**。同一问题在不同轮次可能被重复问到，
    目前靠 `rng.shuffle` 降低概率，未做严格的去重追踪。
+6. **一致性相关性系数 0.6~0.75 来自少量手工标注**，未在大规模标注集上验证。
 
 ---
 
-## License
+## License 与署名要求
 
-MIT
+本项目采用 **[Apache License 2.0](LICENSE)**（自 MIT 迁移而来）。
+
+**为什么不是 MIT**：MIT 以 "without restriction" 授予权利，在其之上附加"必须署名"
+会造成条款冲突，法律上不可执行。Apache-2.0 第 4(b)/(c)/(d) 条提供了有约束力的义务，
+是能在保持开源属性同时强制署名的标准方案。
+
+### 你必须做的事
+
+若你使用、修改、扩展、再分发或基于 ChorusKD 构建工作（包括学术研究、商业产品、
+衍生开源项目、或作为更大系统的组件），**必须**：
+
+| 要求 | 法律依据 | 具体做法 |
+|---|---|---|
+| **注明出处** | Apache-2.0 §4(c)、NOTICE | 在文档、论文或产品致谢中写明：项目名 **ChorusKD**、作者 **PassionCR7**、地址 **https://github.com/PassionCR7/ChorusKD** |
+| **传递 NOTICE** | Apache-2.0 §4(d) | 再分发时附带 [`NOTICE`](NOTICE) 文件的可读副本 |
+| **标注修改** | Apache-2.0 §4(b) | 任何被改动的文件须带有醒目的"已修改"声明 |
+| **不得冒认** | 著作权法 + §4(c) | 不得将本项目的设计、实现或实验结论声称为自己的原创，不得移除署名 |
+
+### 学术引用
+
+```bibtex
+@software{choruskd2026,
+  title  = {ChorusKD: Black-Box Knowledge Distillation via Diverse Sampling,
+            Consistency Voting, Capability-Matched Scheduling, and
+            Ranking-Based DPO},
+  author = {PassionCR7},
+  year   = {2026},
+  url    = {https://github.com/PassionCR7/ChorusKD}
+}
+```
+
+机器可读元数据见 [`CITATION.cff`](CITATION.cff)，GitHub 会据此生成 "Cite this repository" 按钮。
+
+### 上游致谢
+
+本项目的技术基础来自 Self-Consistency、DPO、RRHF、GKD、MiniLLM 等工作，
+完整清单与论文链接见上文 [上游技术来源](#一上游技术来源附论文链接) 及 [`NOTICE`](NOTICE)。
+这些是各自作者的独立研究成果，本项目仅在其基础上做增量改进。
+
+### 姊妹项目
+
+- **[LensKD](https://github.com/PassionCR7/LensKD)** — 白盒蒸馏：双投影器跨词表对齐 + 熵门控 + 在线策略
