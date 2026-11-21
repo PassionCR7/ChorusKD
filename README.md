@@ -1,14 +1,26 @@
 # ChorusKD
 
-**黑盒知识蒸馏的最优形态：多样采样 + 一致性筛选 + 能力匹配调度 + 在线策略**
+**黑盒知识蒸馏：从只给文本的 API 教师那里蒸馏学生模型。**
+
+GPT-4、Claude 这类闭源 API 只返回字符串，拿不到 logits、也拿不到任何概率分布。
+传统 KD 的核心信号（教师的软标签）根本不存在，因此整套白盒方法全部失效。
+ChorusKD 只用**采样 + 筛选**重建质量信号：多温度采样、一致性投票判断教师是否确信、
+按学生能力调度难度，最后用排序 DPO 而非打分。
+
+一句话概括：**教师只肯说答案、不说概率时，怎么蒸馏。**
+
+技术构成：多样采样 + 一致性筛选 + 能力匹配调度 + 在线策略。
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Cite](https://img.shields.io/badge/cite-CITATION.cff-lightgrey)](CITATION.cff)
 
-针对只能拿到文本输出的闭源 API 教师在做的蒸馏。与白盒蒸馏
+针对只能拿到文本输出的闭源 API 教师的蒸馏。与白盒蒸馏
 （[LensKD](https://github.com/PassionCR7/LensKD)）互补，解决的是完全不同的问题。
+
+**适合谁看**：想用商用 API 当教师训练自己的小模型，但发现没有 logits 就无从下手；
+或者已经用 API 生成了数据，但不知道如何判断哪些样本可信。
 
 > **[LensKD](https://github.com/PassionCR7/LensKD)** — 白盒蒸馏：双投影器跨词表对齐 + 熵门控 + 在线策略
 > **ChorusKD**（本仓库）— 黑盒蒸馏：多样采样 + 一致性投票 + 能力调度 + 排序 DPO
